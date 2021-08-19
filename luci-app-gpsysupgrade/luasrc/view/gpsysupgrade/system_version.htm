@@ -126,7 +126,8 @@ local system_version = require "luci.model.cbi.gpsysupgrade.sysupgrade".get_syst
 		// Download file
 		XHR.get(sysUpgradeUrl, {
 			token: tokenStr,
-			url: sysUpgradeInfo ? sysUpgradeInfo.url : ''
+			url: sysUpgradeInfo ? sysUpgradeInfo.url : '',
+			md5: sysUpgradeInfo ? sysUpgradeInfo.md5 : ''
 		}, function(x,json) {
 			if(json.code) {
 				removePageNotice_sysup();
@@ -147,15 +148,14 @@ local system_version = require "luci.model.cbi.gpsysupgrade.sysupgrade".get_syst
 		if (!kconfig.checked && kopkg.checked){
 			opts = "-n -k";
 			}
-				removePageNotice_sysup();
-				check();
+			removePageNotice_sysup();
+			setTimeout(check, 8000);
 						XHR.get(sysUpgradeUrl, {
 							token: tokenStr,
 							task: 'flash',
 							file: json.file,
 							retain: opts
 						}, function(x,json) {
-							
 						},300)
 			}
 		},300)
@@ -173,7 +173,19 @@ local system_version = require "luci.model.cbi.gpsysupgrade.sysupgrade".get_syst
 			<span>【 <%=system_version%> 】</span>
 		&nbsp;&nbsp;&nbsp;<span id="_sysup-check_btn-detail"></span>
 		</div>
-	<div id="updatelogs"></div>
+<style>
+#updatelogs .alert-message p{
+	text-align:left;
+	}
+#updatelogs .alert-message a{
+    color: orangered;
+text-decoration: underline;
+}
+.red{
+    color: orangered;
+}
+</style>
+	<pre id="updatelogs" style="font-family:Microsoft Yahei;line-height:1.5rem;"></div>
 <div id="retain" style="display:none;margin:0.5rem;">
 	<p style="margin-top:0.4rem;"><button class="btn"><input type="checkbox" checked id="kconfig"> <%:Keep settings and retain the current configuration%></button></p>
 <p style="margin-top:0.5rem;"><button class="btn"><input type="checkbox" checked id="kopkg"> <%:Retain the current packages%></button></p>
@@ -198,7 +210,7 @@ local system_version = require "luci.model.cbi.gpsysupgrade.sysupgrade".get_syst
 	}
 
 	function check() {
-		window.setTimeout(ping, 5000);
+		window.setTimeout(ping, 3000);
 	}
 
 	function ping() {
