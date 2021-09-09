@@ -6,8 +6,8 @@ BKOPKG="/etc/backup"
 touch $LOCK
 mkdir -p $BKOPKG
 if [ ! -f /etc/inited ]; then
-	[ "$(uci get dhcp.@dnsmasq[0].noresolv) 2>/dev/null" ] && {
-		uci del dhcp.@dnsmasq[0].noresolv
+	[ "$(uci -q get dhcp.@dnsmasq[0].noresolv)" ] && {
+		uci -q del dhcp.@dnsmasq[0].noresolv
 		uci commit dhcp
 		service dnsmasq reload
 	}
@@ -76,7 +76,7 @@ function opkgupgrade() {
 (
 	if [[ ! -f /etc/inited || -f $BKOPKG/failed.txt ]]; then
 		opkgupgrade || true
-	elif [[ -f /etc/inited && `uci get system.@system[0].autoupgrade_pkg 2>/dev/null || echo "1"` != '0' ]]; then
+	elif [[ -f /etc/inited && `uci -q get system.@system[0].autoupgrade_pkg || echo "1"` != '0' ]]; then
 		opkgupgrade || true
 	fi
 	rm -f /var/lock/opkg.lock
