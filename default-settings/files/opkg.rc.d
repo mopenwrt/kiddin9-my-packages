@@ -40,7 +40,7 @@ function opkgupgrade() {
 								while :; do
 									opkg install --force-overwrite --force-checksum --force-depends $ipk | sed -e "s/^/$(date +%Y-%m-%d" "%H:%M:%S) /" >>/tmp/opkgupdate.log 2>&1
 									if [[ $ipk == luci-app-* ]]; then
-										opkg install --force-overwrite --force-checksum luci-i18n-"$(echo $ipk | cut -d - -f 3-4)"-zh-cn | sed -e "s/^/$(date +%Y-%m-%d" "%H:%M:%S) /" >>/tmp/opkgupdate.log 2>&1
+										opkg install --force-overwrite --force-checksum luci-i18n-"$(echo $ipk | cut -d - -f 3-4)"-zh-cn | sed -e "s/^/$(date +%Y-%m-%d" "%H:%M:%S) /" >>/tmp/opkgupdate.log 2>&1 || true
 									fi
 									[[ "$(opkg list-installed | grep $ipk)" ]] && {
 										break
@@ -58,7 +58,7 @@ function opkgupgrade() {
 					fi
 					[[ -f $BKOPKG/failed.txt &&  -f /etc/inited ]] && {
 						for ipk in $(cat $BKOPKG/failed.txt); do
-							opkg install --force-overwrite --force-checksum --force-depends $ipk | sed -e "s/^/$(date +%Y-%m-%d" "%H:%M:%S) /" >>/tmp/opkgupdate.log 2>&1
+							opkg install --force-overwrite --force-checksum --force-depends $ipk | sed -e "s/^/$(date +%Y-%m-%d" "%H:%M:%S) /" >>/tmp/opkgupdate.log 2>&1 || true
 							[[ "$(opkg list-installed | grep $ipk)" ]] && {
 								sed -i '/$ipk/d' $BKOPKG/failed.txt
 							}
