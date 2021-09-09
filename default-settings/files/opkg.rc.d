@@ -38,7 +38,7 @@ function opkgupgrade() {
 					if [ "$upopkg" != " " ]; then
 							for ipk in $upopkg; do
 								while :; do
-									opkg install --force-overwrite --force-checksum --force-depends $ipk | sed -e "s/^/$(date +%Y-%m-%d" "%H:%M:%S) /" >>/tmp/opkgupdate.log 2>&1
+									opkg install --force-overwrite --force-checksum --force-depends $ipk | sed -e "s/^/$(date +%Y-%m-%d" "%H:%M:%S) /" >>/tmp/opkgupdate.log 2>&1 || true
 									if [[ $ipk == luci-app-* ]]; then
 										opkg install --force-overwrite --force-checksum luci-i18n-"$(echo $ipk | cut -d - -f 3-4)"-zh-cn | sed -e "s/^/$(date +%Y-%m-%d" "%H:%M:%S) /" >>/tmp/opkgupdate.log 2>&1 || true
 									fi
