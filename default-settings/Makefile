@@ -19,7 +19,7 @@ define Package/default-settings
   TITLE:=Default Settings
   MAINTAINER:=Kiddin'
   PKGARCH:=all
-  DEPENDS:=+luci-base
+  DEPENDS:=+luci-base +bash
 endef
 
 define Package/default-settings/conffiles
