@@ -126,7 +126,7 @@ echo ""
 }
 c=0
 while [ ! -n "$(get_ip_addresses)" ];do
-[ $c -eq 5 ] && break || let c++
+[ $c -eq 6 ] && break || let c++
 sleep 1
 done
 ip_address="$(get_ip_addresses)"
