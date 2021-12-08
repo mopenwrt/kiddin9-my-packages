@@ -143,7 +143,7 @@ printf "IP  地址:  \x1B[92m%s\x1B[0m" "$ip_address"
 echo "" # fixed newline
 
 display "系统存储" "$root_usage" "90" "1" "%" " of $root_total"
-printf "CPU 信息: \x1B[92m%s\x1B[0m\t" "$(/sbin/cpuinfo)"
+printf "CPU 信息: \x1B[92m%s\x1B[0m\t" "$(echo `/sbin/cpuinfo | cut -d '(' -f -1`)"
 echo ""
 
 display "数据存储" "$data_usage" "90" "1" "%" " of $data_total"
