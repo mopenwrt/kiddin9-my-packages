@@ -48,7 +48,11 @@ wifi_setup_radio()
 		test -n "$obj" && {
 			uci set wireless.$obj.device="${radio}"
 			uci set wireless.$obj.network='lan'
-			uci set wireless.$obj.mode='ap'
+			if [ x`uci get wireless.${radio}.hwmode 2>/dev/null` = "x11a" ]; then
+				uci set wireless.$obj.ssid="${SSID}_5G"
+			else
+				uci set wireless.$obj.ssid="${SSID}_2.4G"
+			fi
 			uci set wireless.$obj.ssid="${SSID}"
 			uci set wireless.$obj.encryption='psk2'
 			uci set wireless.$obj.skip_inactivity_poll='1'
