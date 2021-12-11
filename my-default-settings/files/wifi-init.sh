@@ -53,7 +53,6 @@ wifi_setup_radio()
 			else
 				uci set wireless.$obj.ssid="${SSID}_2.4G"
 			fi
-			uci set wireless.$obj.ssid="${SSID}"
 			uci set wireless.$obj.encryption='psk2'
 			uci set wireless.$obj.skip_inactivity_poll='1'
 			uci set wireless.$obj.wpa_group_rekey='0'
