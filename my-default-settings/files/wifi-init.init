@@ -6,9 +6,6 @@ START=19
 boot() {
 	. /lib/wifi/wifi-init.sh
 
-	local base wifi_init
-	local SSID SSID_PASSWD
-
 	wifi_init=`uci get base_config.@status[0].wifi_init 2>/dev/null`
 	wifi_init=$((wifi_init+0))
 
@@ -20,6 +17,4 @@ boot() {
 
 	uci set base_config.@status[0].wifi_init=$wifi_init
 	uci commit base_config
-
-	/etc/init.d/wifi-init disable
 }
